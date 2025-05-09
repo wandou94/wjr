@@ -1,0 +1,14 @@
+import torch
+import pandas as pd
+
+test_images = torch.load('/kaggle/input/moai-2025-training/test_images.pt', weights_only=True)
+test_images = (test_images.float() - test_images.float().mean()) /test_images.float().std()
+
+model.eval()
+with torch.no_grad():
+    device = next(model.parameters()).device
+    outputs = model(test_images.to(device))
+    predictions = outputs.argmax(dim=1)
+
+df_test = pd.DataFrame({"label": predictions.cpu().numpy()})
+df_test.to_csv("submission.csv", index_label="id")
