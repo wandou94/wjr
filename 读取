@@ -1,0 +1,18 @@
+import pandas as pd
+import torch
+
+# 加载 .pt 文件（假设是训练图像数据）
+train_images = torch.load('path/to/train_images.pt')  # 替换为你的文件路径
+
+# 加载 .csv 文件（假设是标签数据）
+train_labels = pd.read_csv('path/to/train_labels.csv')  # 替换为你的文件路径
+
+# 将标签转换为 Tensor
+labels = torch.tensor(train_labels['label'].values)
+
+# 数据预处理示例（如果需要）
+train_images = (train_images.float() - train_images.float().mean()) / train_images.float().std()
+
+# 确保数据的形状
+print(f'Images shape: {train_images.shape}')
+print(f'Labels shape: {labels.shape}')
